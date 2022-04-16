@@ -15,6 +15,22 @@ func _ready():
 	$TileMap.free()
 	_update_rules()
 
+func _try_read_rule(dict, start, direction):
+	if not start + direction in dict:
+		return null
+	if dict[start+direction] != EntityEnum.CONTROL_IS:
+		return null
+	var end = start + 2 * direction
+	if not end in dict:
+		return null
+	match dict[end]:
+		EntityEnum.PRED_STOP, \
+		EntityEnum.PRED_WIN, \
+		EntityEnum.PRED_YOU:
+			return Rule.new(dict[start], dict[end])
+		_:
+			return null
+
 func _update_rules():
 	rules.clear()
 	var text = {}
@@ -34,25 +50,11 @@ func _update_rules():
 			EntityEnum.TEXT_BABA, \
 			EntityEnum.TEXT_FLAG, \
 			EntityEnum.TEXT_WALL:
-				if pos + Vector2.DOWN in text:
-					var next = pos + Vector2.DOWN
-					if text[next] == EntityEnum.CONTROL_IS:
-						next += Vector2.DOWN
-						if next in text:
-							match text[next]:
-								EntityEnum.PRED_STOP, \
-								EntityEnum.PRED_WIN, \
-								EntityEnum.PRED_YOU:
-									rules.append(Rule.new(text[pos], text[next]))
-				if pos + Vector2.RIGHT in text:
-					var next = pos + Vector2.RIGHT
-					if text[next] == EntityEnum.CONTROL_IS:
-						next += Vector2.RIGHT
-						if next in text:
-							match text[next]:
-								EntityEnum.PRED_STOP, \
-								EntityEnum.PRED_WIN, \
-								EntityEnum.PRED_YOU:
-									rules.append(Rule.new(text[pos], text[next]))
+				var rule = _try_read_rule(text, pos, Vector2.DOWN)
+				if rule != null:
+					rules.append(rule)
+				rule = _try_read_rule(text, pos, Vector2.RIGHT)
+				if rule != null:
+					rules.append(rule)
 	for rule in rules:
 		print(rule.format())
