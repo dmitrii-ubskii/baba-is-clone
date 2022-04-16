@@ -1,13 +1,6 @@
 extends Node2D
 
-enum Entity {
-	BABA, WALL, FLAG,
-	TEXT_BABA, TEXT_WALL, TEXT_FLAG,
-	PRED_YOU, PRED_STOP, PRED_WIN,
-	CONTROL_IS,
-}
-
-export(Entity) var entity;
+export var entity = EntityEnum.BABA;
 
 func _ready():
 	$Sprite.frame = entity
