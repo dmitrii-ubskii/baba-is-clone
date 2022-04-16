@@ -4,6 +4,8 @@ class_name Rule
 var subject = EntityEnum.TEXT_BABA
 var predicate = EntityEnum.PRED_YOU
 
+const TEXT_OFFSET = EntityEnum.TEXT_BABA - EntityEnum.BABA
+
 func _init(subj=EntityEnum.TEXT_BABA, pred=EntityEnum.PRED_YOU):
 	subject = subj
 	predicate = pred
@@ -30,3 +32,7 @@ func format():
 		_:
 			rule_text += "<ERROR>"
 	return rule_text
+
+func matches_subject(entity):
+	# could be stuff like "ALL" or "TEXT", but not in this demo
+	return entity + TEXT_OFFSET == subject
