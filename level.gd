@@ -11,6 +11,7 @@ func _ready():
 		var entity = Entity.instance()
 		entity.position = tile * cell_size
 		entity.entity = $TileMap.get_cellv(tile)
+		var _error = entity.connect("entity_moved", self, "_on_move")
 		add_child(entity)
 	$TileMap.free()
 	_update_rules()
@@ -58,3 +59,23 @@ func _update_rules():
 					rules.append(rule)
 	for rule in rules:
 		print(rule.format())
+
+func _input(event):
+	var move_direction = Vector2.ZERO
+	if event.is_action_pressed("ui_up"):
+		move_direction = Vector2.UP
+	if event.is_action_pressed("ui_down"):
+		move_direction = Vector2.DOWN
+	if event.is_action_pressed("ui_left"):
+		move_direction = Vector2.LEFT
+	if event.is_action_pressed("ui_right"):
+		move_direction = Vector2.RIGHT
+	
+	if move_direction != Vector2.ZERO:
+		# we movin'
+		for entity in get_children():
+			entity.move(move_direction * cell_size)
+		get_tree().set_input_as_handled()
+
+func _on_move(_who):
+	pass
