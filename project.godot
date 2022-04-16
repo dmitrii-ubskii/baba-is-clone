@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "EntityEnum",
 "language": "GDScript",
 "path": "res://entity_enum.gd"
+}, {
+"base": "Object",
+"class": "Rule",
+"language": "GDScript",
+"path": "res://rule.gd"
 } ]
 _global_script_class_icons={
-"EntityEnum": ""
+"EntityEnum": "",
+"Rule": ""
 }
 
 [application]
@@ -27,6 +33,10 @@ run/main_scene="res://level.tscn"
 
 window/size/width=864
 window/size/height=864
+
+[gdnative]
+
+singletons=[  ]
 
 [importer_defaults]
 
