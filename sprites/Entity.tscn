@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://sprites/Entity.gd" type="Script" id=1]
 [ext_resource path="res://sprites/text.png" type="Texture" id=2]
@@ -42,9 +42,22 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 22, 22 )
+
 [node name="Entity" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 8 )
 centered = false
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( 24, 24 )
+shape = SubResource( 9 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 24, 24 )
+cast_to = Vector2( 0, 48 )
